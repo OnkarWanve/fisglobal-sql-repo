@@ -1,0 +1,54 @@
+select * from emp
+--1.employee name begins with A
+select * from emp where ename like 'a%'
+
+--2.employees dont have mgr
+select * from emp where mgr_id is null
+
+--3.name, number, salary who earn in range (1200,1400)
+select ename,empno,sal from emp where sal  between 1200 and 1400
+
+--4.update salary of research department emp by 10%
+select * from emp
+update emp set sal=sal+0.1*sal where deptno=
+	(select deptno from dept where dname='research')
+--5.no. of clerks employeed 
+select count(empno) from emp where job='clerk' and mgr_id is not null
+
+--6.avg sal from each job type and no. of employee in each job
+select job,avg(sal), count(empno) from emp 
+group by job
+
+--7.lowest and highes salary
+select min(sal) as 'Min Salary', max(sal) as 'Max Salary'
+from emp
+
+--8. departments details with no employee
+select * from dept where deptno not in
+	(select deptno from emp where deptno is not null)
+
+/*9. employee names,salaries with job=analyst,earning >1200,department=20
+ sort ascending with name*/
+ select * from emp
+ select ename, sal from emp where job='analyst' and sal>1200 and deptno=20
+ order by ename
+
+--10.for each dept lits name,no.with total sal in dept
+
+
+--11.salary of miller and smith
+select sal,ename from emp where ename in('miller','smith')
+
+--12.name start with A or M
+select ename from emp where ename like 'A%' or ename like 'M%'
+
+--13. yearly sal of smith
+select sal*12 as 'Yearly Salary' from emp where ename='smith'
+
+--14.salary not in range (1500,2850)
+select ename,sal from emp where sal not  between 1500 and 2850
+
+--15. list of managers who has more than 2 employee
+select mgr_id from emp  
+group by mgr_id
+having count(empno)>2
